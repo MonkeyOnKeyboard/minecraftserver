@@ -1,0 +1,37 @@
+#server .panel .panel-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#server .thumbnail {
+    padding: 10px;
+}
+
+#server .list-group {
+    margin-bottom: 0;
+}
+
+#server img {
+    width: 100%;
+}
+
+@media (min-width: 1200px) {
+    #server img {
+        height: 165px !important;
+        margin-bottom: 0;
+    }
+}
+
+#server .badge a {
+    color: white;
+    text-decoration: none;
+}
+
+#server #stream-chat-box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 10px 5px 10px;
+    margin: 15px 15px 0 15px;
+}
+
+
