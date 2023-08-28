@@ -5,8 +5,9 @@
  */
 
 return [
-    'twitchstreams' => 'Twitchstreams',
-    'menuServer' => 'Minecraft Server',
+    'minecraftserver' => 'Minecraftserver',
+    'menuServers' => 'Minecraft Server',
+    'menuServer' => 'Server-&Uuml;bersicht',
     'showServer' => 'Server-Informationen',
     'playing' => 'spielt',
     'server' => 'Server',
@@ -36,7 +37,6 @@ return [
     'noOnlineplayers' => 'No players in da house',
     'of' => 'von',
     'edit_serverproperties' => 'Servereinstellungen bearbeiten',
-    'domainsLabel' => 'Domain (s):<br>
-    (mit "," können mehrere eingetragen werden (embed.example.com,othersite.example.com))',
-    'getyourkeys' => 'Um die folgenden Felder auszufüllen, musst du zunächst eine App auf %s erstellen.',
+    'noServerPingInfo' => 'Keine zus&auml;tzlichen Serverinformationen verf&uuml;gbar',
+    'serverproperties' => '(um die Queryfunktionen nutzen zu k&ouml;nnen musst du folgendes in den "server.properties"  des Servers aktivieren (enable-query=true)',
 ];

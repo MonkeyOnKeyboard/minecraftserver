@@ -208,34 +208,36 @@ $server = $this->get('server');
             					<?php 
             					$Info = unserialize($server->getServerpinginfo());
             					?>
-            					<tbody>
-                                    <?php if( $Info !== false ): ?>
+            					<?php if(!empty($Info)): ?>
                                     <?php foreach( $Info as $InfoKey => $InfoValue ): ?>
-                                    						<tr>
-                                    							<td><?php echo htmlspecialchars( $InfoKey ); ?></td>
-                                    							<td><?php
-                                    	if( $InfoKey === 'favicon' )
-                                    	{
-                                    		echo '<img width="64" height="64" src="' . Str_Replace( "\n", "", $InfoValue ) . '">';
-                                    	}else if( Is_Array( $InfoValue ) )
-                                    	{
-                                    		echo "<pre>";
-                                    		print_r( $InfoValue );
-                                    		echo "</pre>";
-                                    	}
-                                    	else
-                                    	{
-                                    		echo htmlspecialchars( $InfoValue );
-                                    	}
-                                    ?></td>
-                                    						</tr>
+                						<tr>
+                							<td><?php echo htmlspecialchars( $InfoKey ); ?></td>
+                							<td><?php
+                                            	if( $InfoKey === 'favicon' )
+                                            	{
+                                            		echo '<img width="64" height="64" src="' . Str_Replace( "\n", "", $InfoValue ) . '">';
+                                            	}else if( Is_Array( $InfoValue ) )
+                                            	{
+                                            		
+                                            	    echo "<pre>";
+                                            		print_r( $InfoValue );
+                                            		echo "</pre>";
+                                            		                                    	    
+                                            	    
+                                            	}
+                                            	else
+                                            	{
+                                            		echo htmlspecialchars( $InfoValue );
+                                            	}
+                                                ?>
+                                           </td>
+                                    	</tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>
-                                    						<tr>
-                                    							<td colspan="2">No information received</td>
-                                    						</tr>
+                						<tr>
+                							<td colspan="2" align="center"><?=$this->getTrans('noServerPingInfo') ?></td>
+                						</tr>
                                     <?php endif; ?>
-            					</tbody>
             				</table>
             		</div>	
                   </div>

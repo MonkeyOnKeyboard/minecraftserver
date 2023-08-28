@@ -70,6 +70,7 @@ class Server extends \Ilch\Mapper
             'hostip' => $model->getHostip(),
             'software' => $model->getSoftware(),
             'players' => $model->getPlayers(),
+            'serverpinginfo' => $model->getServerpinginfo(),
         ];
         
         if ($model->getId()) {
@@ -147,7 +148,8 @@ class Server extends \Ilch\Mapper
             ->setNumplayers(0)
             ->setMaxplayers(0)
             ->setSoftware("")
-            ->setPlayers(serialize(array()));
+            ->setPlayers(serialize(array()))
+            ->setServerpinginfo(serialize(array()));
             
             foreach ($onlineServer ?? [] as $id => $obj) {
                              
@@ -170,7 +172,8 @@ class Server extends \Ilch\Mapper
                         ->setNumplayers(0)
                         ->setMaxplayers(0)
                         ->setSoftware("")
-                        ->setPlayers(serialize(array()));
+                        ->setPlayers(serialize(array()))
+                        ->setServerpinginfo(serialize(array()));
                     } else {
                     
                         $server->setMinecraftserver($obj->getMinecraftserver());
@@ -186,7 +189,8 @@ class Server extends \Ilch\Mapper
                         ->setNumplayers($obj->getNumplayers())
                         ->setMaxplayers($obj->getMaxplayers())
                         ->setSoftware($obj->getSoftware())
-                        ->setPlayers($obj->getPlayers());
+                        ->setPlayers($obj->getPlayers())
+                        ->setServerpinginfo($obj->getServerpinginfo());
                     
                     }
                     

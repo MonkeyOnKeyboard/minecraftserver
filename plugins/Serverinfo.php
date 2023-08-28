@@ -11,6 +11,7 @@ class Serverinfo {
     
     private $server = [];
     private $dataServer = [];
+    private $Info =[];
     
     
     public function getServerData(){
@@ -19,24 +20,39 @@ class Serverinfo {
             foreach ($this->server as $server) {
                     $minecraftserver = $server->getMinecraftserver();
                     
-                    
-                    
-                    
                     $serverdata = new MinecraftServer($server->getMinecraftserver(), $server->getPort(), $server->getTimeout());
-                    
-                    /*
-                    $Query = new MinecraftPing($server->getMinecraftserver(), $server->getPort(), $server->getTimeout());
-                    $Info = $Query->Query( );
-                    if( $Info === false )
-                    {
+                    try {
+                        $Query = new MinecraftPing($server->getMinecraftserver(), $server->getPort(), $server->getTimeout());
+                        if (isset($Query)) {
+                            $Info = $Query->Query( );
+                            if( $Info === false )
+                            {
+                                
+                                
+                                $Query->Close( );
+                                $Query->Connect( );
+                                $Info = $Query->QueryOldPre17( );
+                                
+                            }
+                            
+                        } 
+                    } catch (\Throwable $ignored) {
+                        // Auf die verschiedenen Exceptions reagieren.
+                        // Die verschiedenen MinecraftPingExceptions kannst du durch die "Message" oder andere Eigenschaften unterscheiden.
+                        //echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+                    } finally {
+                        // Verbindung trennen, aufräumen, ...
                         
-                        
-                        $Query->Close( );
-                        $Query->Connect( );
-                        $Info = $Query->QueryOldPre17( );
-                        
+                        if(isset($Query))
+                        {
+                            $Query->Close();
+                        } else {
+                            
+                            $Info = [];
+                            
+                        }
                     }
-                    */
+
                     $model = new ServerModel();
                     $model->setMinecraftserver($minecraftserver)
                     ->setHostname($serverdata->hostname)
@@ -52,13 +68,8 @@ class Serverinfo {
                     ->setSoftware($serverdata->software)
                     ->setOnline($serverdata->online)
                     ->setPlayers(serialize($serverdata->players))
-                    ->setServerInfo($serverdata->getInfoArray());
-                    /*
-                    if ( $Info !== false )
-                    {
-                         $model->setServerpinginfo(serialize($Info));
-                    }
-                    */
+                    ->setServerInfo($serverdata->getInfoArray())
+                    ->setServerpinginfo(serialize($Info));
                     $this->dataServer[] = $model;
                     
             }

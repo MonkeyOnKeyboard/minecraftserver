@@ -11,7 +11,7 @@
                 <?php if ($server->getOnline()): ?>
                 <?=$server->getHostname() ?>
                 <?php else: ?>
-                <?=$this->getTrans('offline') ?>
+                <?=$server->getMinecraftserver() ?>
                 <?php endif; ?>
             </a>
         </div>
