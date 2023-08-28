@@ -115,9 +115,9 @@ class Server extends \Ilch\Mapper
         return null;
     }
 
+    
     public function updateDataServer(MinecraftserverModel $server = null)
     {
-        
         $api = new ServerPlugin();
         
         if (!$server) {
@@ -130,12 +130,11 @@ class Server extends \Ilch\Mapper
             return null;
         }
         
-        
         $api->setServer($serverInDatabase);
-        $serverData = $api->getServerData();
-  
+        $onlineServer = $api->getServerData();
+        
         foreach ($serverInDatabase as $id => $server) {
-                     
+            
             $server->setHostname("")
             ->setHostport(0)
             ->setHostip("")
@@ -143,45 +142,63 @@ class Server extends \Ilch\Mapper
             ->setGametype("")
             ->setGame_id("")
             ->setVersion("")
-            ->setPlugins("")
+            ->setPlugins(serialize(array()))
             ->setMap("")
             ->setNumplayers(0)
             ->setMaxplayers(0)
             ->setSoftware("")
-            ->setPlayers("");
+            ->setPlayers(serialize(array()));
+            
+            foreach ($onlineServer ?? [] as $id => $obj) {
                              
-            foreach ($serverData ?? [] as $id => $obj) {
-                
                 if (strtolower($server->getMinecraftserver()) == strtolower($obj->getMinecraftserver())) {
-                    $server->setMinecraftserver($obj->getMinecraftserver());
-                    $server->setHostname($obj->getHostname())
-                    ->setHostport($obj->getHostport())
-                    ->setHostip($obj->getHostip())
-                    ->setOnline($obj->getOnline())
-                    ->setGametype($obj->getGametype())
-                    ->setGame_id($obj->getGame_id())
-                    ->setVersion($obj->getVersion())
-                    ->setPlugins($obj->getPlugins())
-                    ->setMap($obj->getMap())
-                    ->setNumplayers($obj->getNumplayers())
-                    ->setMaxplayers($obj->getMaxplayers())
-                    ->setSoftware($obj->getSoftware())
-                    ->setPlayers($obj->getPlayers());
- 
-                    echo "<hr>";
-                    var_dump($id, $obj);
                     
-                    unset($serverData[$id]);
+                    if (empty($obj->getServerInfo())) {
+                        $server->setMinecraftserver($obj->getMinecraftserver())
+                        ->setPort($obj->getPort())
+                        ->setTimeouit($obj->getTimeout());
+                        
+                        $server->setHostname("")
+                        ->setHostport(0)
+                        ->setHostip("")
+                        ->setOnline(0)
+                        ->setGametype("")
+                        ->setGame_id("")
+                        ->setVersion("")
+                        ->setPlugins(serialize(array()))
+                        ->setMap("")
+                        ->setNumplayers(0)
+                        ->setMaxplayers(0)
+                        ->setSoftware("")
+                        ->setPlayers(serialize(array()));
+                    } else {
+                    
+                        $server->setMinecraftserver($obj->getMinecraftserver());
+                        $server->setHostname($obj->getHostname())
+                        ->setHostport($obj->getHostport())
+                        ->setHostip($obj->getHostip())
+                        ->setOnline($obj->getOnline())
+                        ->setGametype($obj->getGametype())
+                        ->setGame_id($obj->getGame_id())
+                        ->setVersion($obj->getVersion())
+                        ->setPlugins($obj->getPlugins())
+                        ->setMap($obj->getMap())
+                        ->setNumplayers($obj->getNumplayers())
+                        ->setMaxplayers($obj->getMaxplayers())
+                        ->setSoftware($obj->getSoftware())
+                        ->setPlayers($obj->getPlayers());
+                    
+                    }
+                    
+                    unset($onlineServer[$id]);
                     break;
                 }
             }
-            echo "<hr>";
-            var_dump($server);
             $serverInDatabase[$id] = $server;
             
             $this->save($server);
         }
-        
         return $serverInDatabase;
     }
+
 }

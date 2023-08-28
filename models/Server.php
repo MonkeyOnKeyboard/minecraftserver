@@ -29,6 +29,7 @@ class Server extends \Ilch\Model {
     protected $type;
     protected $modList;
     protected $modid;
+    protected $serverinfo;
         
     public function setId($id)
     {
@@ -328,6 +329,18 @@ class Server extends \Ilch\Model {
     public function getModid()
     {
         return $this->modid;
+    }
+    
+    public function setServerInfo($serverinfo)
+    {
+        $this->serverinfo = $serverinfo;
+        
+        return $this;
+    }
+    
+    public function getServerInfo()
+    {
+        return $this->serverinfo;
     }
 
 }

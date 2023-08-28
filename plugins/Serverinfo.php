@@ -15,10 +15,6 @@ class Serverinfo {
     
     public function getServerData(){
 
-        echo "<hr>";
-        echo count($this->server);
-        echo "<hr>";
-        
         if (count($this->server) > 0) {
             foreach ($this->server as $server) {
                     $minecraftserver = $server->getMinecraftserver();
@@ -54,13 +50,9 @@ class Serverinfo {
                     ->setHostip($serverdata->hostip)
                     ->setHostport($serverdata->hostport)
                     ->setSoftware($serverdata->software)
-                    ->setOnline($serverdata->online);
-                    if (!$serverdata->players) {
-                        $model->setPlayers(NULL);
-                    } else {
-                        $model->setPlayers(serialize($serverdata->players));
-                    }
-                    
+                    ->setOnline($serverdata->online)
+                    ->setPlayers(serialize($serverdata->players))
+                    ->setServerInfo($serverdata->getInfoArray());
                     /*
                     if ( $Info !== false )
                     {
