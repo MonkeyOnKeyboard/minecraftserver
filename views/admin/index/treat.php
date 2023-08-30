@@ -1,3 +1,10 @@
+<?php
+
+/** @var \Ilch\View $this */
+
+/** @var \Modules\Minecraftserver\Models\Server $server */
+$server = $this->get('server');
+?>
 <form method="POST" class="form-horizontal" action="">
     <?=$this->getTokenField() ?>
     <div class="form-group <?=$this->validation()->hasError('inputServer') ? 'has-error' : '' ?>">
@@ -8,8 +15,9 @@
             <input class="form-control"
                    type="text"
                    name="inputServer"
+                   id="inputServer"
                    placeholder="<?=$this->getTrans('serveradress') ?>"
-                   value="<?=$this->originalInput('inputServer', ($this->get('server') ? $this->escape($this->get('server')->getMinecraftserver()) : '')) ?>" />
+                   value="<?=$this->escape($this->originalInput('inputServer', $server->getMinecraftserver())) ?>" />
 
         </div>
     </div>
@@ -21,8 +29,9 @@
             <input class="form-control"
                    type="text"
                    name="inputPort"
+                   id="inputPort"
                    placeholder="<?=$this->getTrans('query_port') ?>"
-                   value="<?=$this->originalInput('inputPort', ($this->get('server') ? $this->escape($this->get('server')->getPort()) : '')) ?>" />
+                   value="<?=$this->escape($this->originalInput('inputPort', $server->getPort())) ?>" />
 
         </div>
     </div>
@@ -34,11 +43,12 @@
             <input class="form-control"
                    type="text"
                    name="inputTimeout"
+                   id="inputTimeout"
                    placeholder="<?=$this->getTrans('pingtimeout') ?>"
-                   value="<?=$this->originalInput('inputTimeout', ($this->get('server') ? $this->escape($this->get('server')->getTimeout()) : '')) ?>" />
+                   value="<?=$this->escape($this->originalInput('inputTimeout', $server->getTimeout())) ?>" />
 
         </div>
     </div>
 
-    <?=($this->get('server') != '') ? $this->getSaveBar('edit') : $this->getSaveBar('add') ?>
+    <?=($server->getId()) ? $this->getSaveBar('edit') : $this->getSaveBar('add') ?>
 </form>

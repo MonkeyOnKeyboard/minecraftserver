@@ -2,345 +2,486 @@
 
 namespace Modules\Minecraftserver\Models;
 
-class Server extends \Ilch\Model {
+class Server extends \Ilch\Model
+{
+    /**
+     * @var int
+     */
+    protected $id = 0;
+    /**
+     * @var string
+     */
+    protected $minecraftserver = '';
+    /**
+     * @var int
+     */
+    protected $port = 25565;
+    /**
+     * @var int
+     */
+    protected $timeout = 10;
+    /**
+     * @var string
+     */
+    protected $hostname = '';
+    /**
+     * @var string
+     */
+    protected $gametype = '';
+    /**
+     * @var string
+     */
+    protected $game_id = '';
+    /**
+     * @var string
+     */
+    protected $version = '';
+    /**
+     * @var string
+     */
+    protected $plugins = '';
+    /**
+     * @var string
+     */
+    protected $map = '';
+    /**
+     * @var int
+     */
+    protected $numplayers = 0;
+    /**
+     * @var int
+     */
+    protected $maxplayers = 0;
+    /**
+     * @var int
+     */
+    protected $hostport = 0;
+    /**
+     * @var string
+     */
+    protected $hostip = '';
+    /**
+     * @var bool
+     */
+    protected $online = false;
+    /**
+     * @var string
+     */
+    protected $software = '';
+    /**
+     * @var string
+     */
+    protected $description = '';
+    /**
+     * @var string
+     */
+    protected $serverpinginfo = '';
+    /**
+     * @var string
+     */
+    protected $players = '';
+    /**
+     * @var array
+     */
+    protected $serverinfo = [];
+    /**
+     * @var string
+     */
+    protected $updatetime = '';
 
-    protected $id;
-    protected $minecraftserver;
-    protected $port;
-    protected $timeout;
-    protected $hostname;
-    protected $gametype;
-    protected $game_id;
-    protected $version;
-    protected $plugins;
-    protected $map;
-    protected $numplayers;
-    protected $maxplayers;
-    protected $hostport;
-    protected $hostip;
-    protected $online;
-    protected $software;
-    protected $description;
-    protected $serverpinginfo;
-    protected $players;
-    protected $name;
-    protected $protocol;
-    protected $modinfo;
-    protected $type;
-    protected $modList;
-    protected $modid;
-    protected $serverinfo;
-        
-    public function setId($id)
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id): Server
     {
         $this->id = $id;
 
         return $this;
     }
-    
-    public function getId()
+
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function setMinecraftserver($minecraftserver)
+
+    /**
+     * @param string $minecraftserver
+     * @return $this
+     */
+    public function setMinecraftserver(string $minecraftserver): Server
     {
         $this->minecraftserver = $minecraftserver;
 
         return $this;
     }
-    
-    public function getMinecraftserver()
+
+    /**
+     * @return string
+     */
+    public function getMinecraftserver(): string
     {
         return $this->minecraftserver;
     }
-    
-    public function setPort($port)
+
+    /**
+     * @param int $port
+     * @return $this
+     */
+    public function setPort(int $port): Server
     {
         $this->port = $port;
 
         return $this;
     }
-    
-    public function getPort()
+
+    /**
+     * @return int
+     */
+    public function getPort(): int
     {
         return $this->port;
     }
-    
-    public function setTimeouit($timeout)
+
+    /**
+     * @param int $timeout
+     * @return $this
+     */
+    public function setTimeout(int $timeout): Server
     {
         $this->timeout = $timeout;
-        
+
         return $this;
     }
-    
-    public function getTimeout()
+
+    /**
+     * @return int
+     */
+    public function getTimeout(): int
     {
         return $this->timeout;
     }
-    
-    public function setHostname($hostname)
+
+    /**
+     * @param string $hostname
+     * @return $this
+     */
+    public function setHostname(string $hostname): Server
     {
         $this->hostname = $hostname;
 
         return $this;
     }
-    
-    public function getHostname()
+
+    /**
+     * @return string
+     */
+    public function getHostname(): string
     {
         return $this->hostname;
     }
-    
-    public function setGametype($gametype)
+
+    /**
+     * @param string $gametype
+     * @return $this
+     */
+    public function setGametype(string $gametype): Server
     {
         $this->gametype = $gametype;
 
         return $this;
     }
-    
-    public function getGametype()
+
+    /**
+     * @return string
+     */
+    public function getGametype(): string
     {
         return $this->gametype;
     }
-    
-    public function setGame_id($game_id)
+
+    /**
+     * @param string $game_id
+     * @return $this
+     */
+    public function setGameId(string $game_id): Server
     {
         $this->game_id = $game_id;
 
         return $this;
     }
-    
-    public function getGame_id()
+
+    /**
+     * @return string
+     */
+    public function getGameId(): string
     {
         return $this->game_id;
     }
-    
-    public function setVersion($version)
+
+    /**
+     * @param string $version
+     * @return $this
+     */
+    public function setVersion(string $version): Server
     {
         $this->version = $version;
 
         return $this;
     }
-    
-    public function getVersion()
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
     {
         return $this->version;
     }
-    
-    public function setPlugins($plugins)
+
+    /**
+     * @param string $plugins
+     * @return $this
+     */
+    public function setPlugins(string $plugins): Server
     {
         $this->plugins = $plugins;
 
         return $this;
     }
-    
-    public function getPlugins()
+
+    /**
+     * @return string
+     */
+    public function getPlugins(): string
     {
         return $this->plugins;
     }
-    
-    public function setMap($map)
+
+    /**
+     * @param string $map
+     * @return $this
+     */
+    public function setMap(string $map): Server
     {
         $this->map = $map;
 
         return $this;
     }
-    
-    public function getMap()
+
+    /**
+     * @return string
+     */
+    public function getMap(): string
     {
         return $this->map;
     }
-    
-    public function setNumplayers($numplayers)
+
+    /**
+     * @param int $numplayers
+     * @return $this
+     */
+    public function setNumplayers(int $numplayers): Server
     {
         $this->numplayers = $numplayers;
 
         return $this;
     }
-    
-    public function getNumplayers()
+
+    /**
+     * @return int
+     */
+    public function getNumplayers(): int
     {
         return $this->numplayers;
     }
-    
-    public function setMaxplayers($maxplayers)
+
+    /**
+     * @param int $maxplayers
+     * @return $this
+     */
+    public function setMaxplayers(int $maxplayers): Server
     {
         $this->maxplayers = $maxplayers;
 
         return $this;
     }
-    
-    public function getMaxplayers()
+
+    /**
+     * @return int
+     */
+    public function getMaxplayers(): int
     {
         return $this->maxplayers;
     }
-    
-    public function setHostport($hostport)
+
+    /**
+     * @param int $hostport
+     * @return $this
+     */
+    public function setHostport(int $hostport): Server
     {
         $this->hostport = $hostport;
 
         return $this;
     }
-    
-    public function getHostport()
+
+    /**
+     * @return int
+     */
+    public function getHostport(): int
     {
         return $this->hostport;
     }
-    
-    public function setHostip($hostip)
+
+    /**
+     * @param string $hostip
+     * @return $this
+     */
+    public function setHostip(string $hostip): Server
     {
         $this->hostip = $hostip;
 
         return $this;
     }
-    
-    public function getHostip()
+
+    /**
+     * @return string
+     */
+    public function getHostip(): string
     {
         return $this->hostip;
     }
-    
-    public function setOnline($online)
+
+    /**
+     * @param bool $online
+     * @return $this
+     */
+    public function setOnline(bool $online): Server
     {
         $this->online = $online;
 
         return $this;
     }
-    
-    public function getOnline()
+
+    public function getOnline(): bool
     {
         return $this->online;
     }
-    
-    public function setSoftware($software)
+
+    /**
+     * @param string $software
+     * @return $this
+     */
+    public function setSoftware(string $software): Server
     {
         $this->software = $software;
 
         return $this;
     }
-    
-    public function getSoftware()
+
+    /**
+     * @return string
+     */
+    public function getSoftware(): string
     {
         return $this->software;
     }
-    
-    public function setDiscription($description)
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription(string $description): Server
     {
-        $this->discription = $discription;
+        $this->description = $description;
 
         return $this;
     }
-    
-    public function getDiscription()
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
     {
-        return $this->discription;
+        return $this->description;
     }
-    
-    public function setServerpinginfo($serverpinginfo)
+
+    /**
+     * @param string $serverpinginfo
+     * @return $this
+     */
+    public function setServerpinginfo(string $serverpinginfo): Server
     {
         $this->serverpinginfo = $serverpinginfo;
 
         return $this;
     }
-    
-    public function getServerpinginfo()
+
+    /**
+     * @return string
+     */
+    public function getServerpinginfo(): string
     {
         return $this->serverpinginfo;
     }
-    
-    public function setPlayers($players)
+
+    /**
+     * @param string $players
+     * @return $this
+     */
+    public function setPlayers(string $players): Server
     {
         $this->players = $players;
 
         return $this;
     }
-    
-    public function getPlayers()
+
+    /**
+     * @return string
+     */
+    public function getPlayers(): string
     {
         return $this->players;
     }
-    
-    public function setName($name)
-    {
-        $this->name = $name;
 
-        return $this;
-    }
-    
-    public function getName()
-    {
-        return $this->name;
-    }
-    
-    public function setProtocol($protocol)
-    {
-        $this->protocol = $protocol;
-
-        return $this;
-    }
-    
-    public function getProtocol()
-    {
-        return $this->protocol;
-    }
-    
-    public function setModinfo($modinfo)
-    {
-        $this->modinfo = $modinfo;
-
-        return $this;
-    }
-    
-    public function getModinfo()
-    {
-        return $this->modinfo;
-    }
-    
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-    
-    public function getType()
-    {
-        return $this->type;
-    }
-    
-    public function setModList($modList)
-    {
-        $this->modList = $modList;
-
-        return $this;
-    }
-    
-    public function getModList()
-    {
-        return $this->modList;
-    }
-    
-    public function setModid($modid)
-    {
-        $this->modid = $modid;
-
-        return $this;
-    }
-    
-    public function getModid()
-    {
-        return $this->modid;
-    }
-    
-    public function setServerInfo($serverinfo)
+    /**
+     * @param array $serverinfo
+     * @return $this
+     */
+    public function setServerInfo(array $serverinfo): Server
     {
         $this->serverinfo = $serverinfo;
-        
+
         return $this;
     }
-    
-    public function getServerInfo()
+
+    /**
+     * @return array
+     */
+    public function getServerInfo(): array
     {
         return $this->serverinfo;
     }
 
+    /**
+     * @param string $updatetime
+     * @return $this
+     */
+    public function setUpdateTime(string $updatetime): Server
+    {
+        $this->updatetime = $updatetime;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdateTime(): string
+    {
+        return $this->updatetime;
+    }
 }

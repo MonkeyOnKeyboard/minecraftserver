@@ -2,14 +2,17 @@
 
 namespace Modules\Minecraftserver\Mappers;
 
-use \Modules\Minecraftserver\Models\Server as MinecraftserverModel;
-use \Modules\Minecraftserver\Plugins\Serverinfo as ServerPlugin;
-use MongoDB\Driver\ServerApi;
+use Modules\Minecraftserver\Models\Server as MinecraftserverModel;
+use Modules\Minecraftserver\Plugins\Serverinfo as ServerPlugin;
 
 class Server extends \Ilch\Mapper
 {
-
-    public function getMincraftServer($where = [], $orderBy = ['minecraftserver' => 'ASC', 'online' => 'DESC'])
+    /**
+     * @param array $where
+     * @param array $orderBy
+     * @return MinecraftserverModel[]|null
+     */
+    public function getMincraftServer(array $where = [], array $orderBy = ['minecraftserver' => 'ASC', 'online' => 'DESC']): ?array
     {
         $resultArray = $this->db()->select('*')
             ->from('minecraftserver_status')
@@ -28,11 +31,11 @@ class Server extends \Ilch\Mapper
             $model->setId($serverRow['id'])
                 ->setMinecraftserver($serverRow['minecraftserver'])
                 ->setPort($serverRow['port'])
-                ->setTimeouit($serverRow['timeout'])
+                ->setTimeout($serverRow['timeout'])
                 ->setHostname($serverRow['hostname'])
                 ->setOnline($serverRow['online'])
                 ->setGametype($serverRow['gametype'])
-                ->setGame_id($serverRow['game_id'])
+                ->setGameId($serverRow['game_id'])
                 ->setVersion($serverRow['version'])
                 ->setPlugins($serverRow['plugins'])
                 ->setMap($serverRow['map'])
@@ -42,16 +45,20 @@ class Server extends \Ilch\Mapper
                 ->setHostip($serverRow['hostip'])
                 ->setSoftware($serverRow['software'])
                 ->setPlayers($serverRow['players'])
-                ->setServerpinginfo($serverRow['serverpinginfo']);
-                $server[] = $model;
+                ->setServerpinginfo($serverRow['serverpinginfo'])
+                ->setDescription($serverRow['description'])
+                ->setUpdateTime($serverRow['updatetime']);
+            $server[] = $model;
         }
 
         return $server;
-
-
     }
-    
-    public function save(MinecraftserverModel $model)
+
+    /**
+     * @param MinecraftserverModel $model
+     * @return int
+     */
+    public function save(MinecraftserverModel $model): int
     {
         $fields = [
             'minecraftserver' => $model->getMinecraftserver(),
@@ -60,7 +67,7 @@ class Server extends \Ilch\Mapper
             'hostname' => $model->getHostname(),
             'online' => $model->getOnline(),
             'gametype' => $model->getGametype(),
-            'game_id' => $model->getGame_id(),
+            'game_id' => $model->getGameId(),
             'version' => $model->getVersion(),
             'plugins' => $model->getPlugins(),
             'map' => $model->getMap(),
@@ -71,138 +78,134 @@ class Server extends \Ilch\Mapper
             'software' => $model->getSoftware(),
             'players' => $model->getPlayers(),
             'serverpinginfo' => $model->getServerpinginfo(),
+            'description' => $model->getDescription(),
+            'updatetime' => $model->getUpdateTime(),
         ];
-        
+
         if ($model->getId()) {
-            $return = $this->db()->update('minecraftserver_status')
+            $this->db()->update('minecraftserver_status')
             ->values($fields)
             ->where(['id' => $model->getId()])
             ->execute();
+            return $model->getId();
         } else {
-            $return = $this->db()->insert('minecraftserver_status')
+            return $this->db()->insert('minecraftserver_status')
             ->values($fields)
             ->execute();
         }
-        return $return;
     }
-   
 
-    public function delete(int $id)
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        $this->db()->delete('minecraftserver_status')
+        return $this->db()->delete('minecraftserver_status')
             ->where(['id' => $id])
             ->execute();
     }
 
-    public function readById(int $id)
+    /**
+     * @param int $id
+     * @return MinecraftserverModel|null
+     */
+    public function readById(int $id): ?MinecraftserverModel
     {
-        $entrys = $this->getMincraftServer(['id' => (int) $id]);
+        $entrys = $this->getMincraftServer(['id' => $id]);
 
         if (!empty($entrys)) {
             return reset($entrys);
         }
-        
+
         return null;
     }
 
-    public function readByServer(string $minecraftserver)
+    /**
+     * @param string $minecraftserver
+     * @return MinecraftserverModel|null
+     */
+    public function readByServer(string $minecraftserver): ?MinecraftserverModel
     {
         $entrys = $this->getMincraftServer(['minecraftserver' => $minecraftserver]);
 
         if (!empty($entrys)) {
             return reset($entrys);
         }
-        
+
         return null;
     }
 
-    
-    public function updateDataServer(MinecraftserverModel $server = null)
+    /**
+     * @param MinecraftserverModel|null $server
+     * @return MinecraftserverModel[]|null
+     */
+    public function updateDataServer(?MinecraftserverModel $server = null): ?array
     {
         $api = new ServerPlugin();
-        
+        $date = new \Ilch\Date();
+        $datenow = new \Ilch\Date($date->format("Y-m-d H:i:s", true));
+
         if (!$server) {
             $serverInDatabase = $this->getMincraftServer();
         } else {
             $serverInDatabase[] = $server;
         }
-        
-        if (!$serverInDatabase){
+
+        if (!$serverInDatabase) {
             return null;
         }
-        
+
         $api->setServer($serverInDatabase);
         $onlineServer = $api->getServerData();
-        
-        foreach ($serverInDatabase as $id => $server) {
-            
+
+        foreach ($serverInDatabase as $i => $server) {
             $server->setHostname("")
-            ->setHostport(0)
-            ->setHostip("")
-            ->setOnline(0)
-            ->setGametype("")
-            ->setGame_id("")
-            ->setVersion("")
-            ->setPlugins(serialize(array()))
-            ->setMap("")
-            ->setNumplayers(0)
-            ->setMaxplayers(0)
-            ->setSoftware("")
-            ->setPlayers(serialize(array()))
-            ->setServerpinginfo(serialize(array()));
-            
+                ->setHostport(0)
+                ->setHostip("")
+                ->setOnline(false)
+                ->setGametype("")
+                ->setGameId("")
+                ->setVersion("")
+                ->setPlugins(serialize([]))
+                ->setMap("")
+                ->setNumplayers(0)
+                ->setMaxplayers(0)
+                ->setSoftware("")
+                ->setPlayers(serialize([]))
+                ->setServerpinginfo(serialize([]))
+                ->setDescription('')
+                ->setUpdateTime($datenow);
+
             foreach ($onlineServer ?? [] as $id => $obj) {
-                             
                 if (strtolower($server->getMinecraftserver()) == strtolower($obj->getMinecraftserver())) {
-                    
-                    if (empty($obj->getServerInfo())) {
-                        $server->setMinecraftserver($obj->getMinecraftserver())
-                        ->setPort($obj->getPort())
-                        ->setTimeouit($obj->getTimeout());
-                        
-                        $server->setHostname("")
-                        ->setHostport(0)
-                        ->setHostip("")
-                        ->setOnline(0)
-                        ->setGametype("")
-                        ->setGame_id("")
-                        ->setVersion("")
-                        ->setPlugins(serialize(array()))
-                        ->setMap("")
-                        ->setNumplayers(0)
-                        ->setMaxplayers(0)
-                        ->setSoftware("")
-                        ->setPlayers(serialize(array()))
-                        ->setServerpinginfo(serialize(array()));
-                    } else {
-                    
-                        $server->setMinecraftserver($obj->getMinecraftserver());
+                    if (!empty($obj->getServerInfo())) {
                         $server->setHostname($obj->getHostname())
-                        ->setHostport($obj->getHostport())
-                        ->setHostip($obj->getHostip())
-                        ->setOnline($obj->getOnline())
-                        ->setGametype($obj->getGametype())
-                        ->setGame_id($obj->getGame_id())
-                        ->setVersion($obj->getVersion())
-                        ->setPlugins($obj->getPlugins())
-                        ->setMap($obj->getMap())
-                        ->setNumplayers($obj->getNumplayers())
-                        ->setMaxplayers($obj->getMaxplayers())
-                        ->setSoftware($obj->getSoftware())
-                        ->setPlayers($obj->getPlayers())
-                        ->setServerpinginfo($obj->getServerpinginfo());
-                    
+                            ->setHostport($obj->getHostport())
+                            ->setHostip($obj->getHostip())
+                            ->setOnline($obj->getOnline())
+                            ->setGametype($obj->getGametype())
+                            ->setGameId($obj->getGameId())
+                            ->setVersion($obj->getVersion())
+                            ->setPlugins($obj->getPlugins())
+                            ->setMap($obj->getMap())
+                            ->setNumplayers($obj->getNumplayers())
+                            ->setMaxplayers($obj->getMaxplayers())
+                            ->setSoftware($obj->getSoftware())
+                            ->setPlayers($obj->getPlayers())
+                            ->setServerpinginfo($obj->getServerpinginfo());
                     }
-                    
+                    $server->setDescription($obj->getDescription());
+
                     unset($onlineServer[$id]);
                     break;
                 }
             }
-            $serverInDatabase[$id] = $server;
-            
-            $this->save($server);
+            $id = $this->save($server);
+            $server->setId($id);
+
+            $serverInDatabase[$i] = $server;
         }
         return $serverInDatabase;
     }
-
 }
