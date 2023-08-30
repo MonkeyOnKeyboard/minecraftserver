@@ -6,7 +6,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'minecraftserver',
-        'version' => '1.0.0',
+        'version' => '1.0.1',
         'icon_small' => 'fa-server',
         'author' => 'Markus | MonkeyOnKeyboard',
         'languages' => [
@@ -30,27 +30,27 @@ class Config extends \Ilch\Config\Install
             ],
         ],
         'ilchCore' => '2.1.52',
-        'phpVersion' => '8.0',
+        'phpVersion' => '7.3',
     ];
 
     public function install()
     {
         $this->db()->queryMulti($this->getInstallSql());
-        
+
         $databaseConfig = new \Ilch\Config\Database($this->db());
-        $databaseConfig->set('minecraftserver_requestEveryPageCall', '0');
-        $databaseConfig->set('minecraftserver_showOffline', '0');
+        $databaseConfig->set('minecraftserver_requestEveryPageCall', '0')
+            ->set('minecraftserver_showOffline', '0');
     }
 
     public function uninstall()
     {
         $this->db()->drop('minecraftserver_status', true);
         $databaseConfig = new \Ilch\Config\Database($this->db());
-        $databaseConfig->delete('minecraftserver_requestEveryPageCall');
-        $databaseConfig->delete('minecraftserver_showOffline');
+        $databaseConfig->delete('minecraftserver_requestEveryPageCall')
+            ->delete('minecraftserver_showOffline');
     }
 
-    public function getInstallSql()
+    public function getInstallSql(): string
     {
         return 'CREATE TABLE IF NOT EXISTS `[prefix]_minecraftserver_status` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -71,15 +71,20 @@ class Config extends \Ilch\Config\Install
             `software` VARCHAR(255) NULL,
             `players` LONGTEXT NULL,
             `serverpinginfo` LONGTEXT NOT NULL,
+            `description` LONGTEXT NOT NULL,
+            `updatetime` datetime NOT NULL,
             PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;';
     }
 
-    public function getUpdate($installedVersion)
+    public function getUpdate(string $installedVersion): string
     {
         switch ($installedVersion) {
             case "1.0.0":
-                // start                
+                $this->db()->query('ALTER TABLE `[prefix]_minecraftserver_status` ADD `description` LONGTEXT NOT NULL AFTER `serverpinginfo`;');
+                $this->db()->query('ALTER TABLE `[prefix]_minecraftserver_status` ADD `updatetime` datetime NOT NULL AFTER `description`;');
         }
+
+        return '"' . $this->config['key'] . '" Update-function executed.';
     }
 }

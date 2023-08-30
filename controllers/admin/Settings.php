@@ -12,19 +12,18 @@ class Settings extends \Ilch\Controller\Admin
             [
                 'name' => 'menuServer',
                 'active' => false,
-                'icon' => 'fas fa-th-list',
+                'icon' => 'fa-solid fa-table-list',
                 'url' => $this->getLayout()->getUrl(['controller' => 'index', 'action' => 'index'])
             ],
             [
                 'name' => 'settings',
                 'active' => true,
-                'icon' => 'fas fa-cogs',
+                'icon' => 'fa-solid fa-gears',
                 'url' => $this->getLayout()->getUrl(['controller' => 'settings', 'action' => 'index'])
             ]
         ];
 
-        $this->getLayout()->addMenu
-        (
+        $this->getLayout()->addMenu(
             'minecraftserver',
             $items
         );
@@ -42,7 +41,6 @@ class Settings extends \Ilch\Controller\Admin
                     'showOffline' => 'required|numeric|min:0|max:1',
                 ]);
             if ($validation->isValid()) {
-                                
                 $this->getConfig()->set('minecraftserver_requestEveryPageCall', $this->getRequest()->getPost('requestEveryPage'))
                     ->set('minecraftserver_showOffline', $this->getRequest()->getPost('showOffline'));
 
@@ -59,6 +57,6 @@ class Settings extends \Ilch\Controller\Admin
         }
 
         $this->getView()->set('requestEveryPage', $this->getConfig()->get('minecraftserver_requestEveryPageCall'))
-            ->set('showOffline', (string)$this->getConfig()->get('minecraftserver_showOffline'));
+            ->set('showOffline', $this->getConfig()->get('minecraftserver_showOffline'));
     }
 }

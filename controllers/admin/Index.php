@@ -2,8 +2,8 @@
 
 namespace Modules\Minecraftserver\Controllers\Admin;
 
-use \Modules\Minecraftserver\Mappers\Server as ServerMapper;
-use \Modules\Minecraftserver\Models\Server as ServerModel;
+use Modules\Minecraftserver\Mappers\Server as ServerMapper;
+use Modules\Minecraftserver\Models\Server as ServerModel;
 use Ilch\Validation;
 
 class Index extends \Ilch\Controller\Admin
@@ -14,19 +14,19 @@ class Index extends \Ilch\Controller\Admin
             [
                 'name' => 'menuServer',
                 'active' => false,
-                'icon' => 'fas fa-th-list',
+                'icon' => 'fa-solid fa-table-list',
                 'url' => $this->getLayout()->getUrl(['controller' => 'index', 'action' => 'index']),
                 [
                     'name' => 'add',
                     'active' => false,
-                    'icon' => 'fas fa-plus-circle',
+                    'icon' => 'fa-solid fa-circle-plus',
                     'url' => $this->getLayout()->getUrl(['controller' => 'index', 'action' => 'treat'])
                 ]
             ],
             [
                 'name' => 'settings',
                 'active' => false,
-                'icon' => 'fas fa-cogs',
+                'icon' => 'fa-solid fa-gears',
                 'url' => $this->getLayout()->getUrl(['controller' => 'settings', 'action' => 'index'])
             ]
         ];
@@ -37,8 +37,7 @@ class Index extends \Ilch\Controller\Admin
             $items[0]['active'] = true;
         }
 
-        $this->getLayout()->addMenu
-        (
+        $this->getLayout()->addMenu(
             'minecraftserver',
             $items
         );
@@ -57,6 +56,9 @@ class Index extends \Ilch\Controller\Admin
                 foreach ($this->getRequest()->getPost('check_server') as $id) {
                     $mapper->delete($id);
                 }
+                $this->redirect()
+                    ->withMessage('deleteSuccess')
+                    ->to(['action' => 'index']);
             }
         }
 
@@ -74,17 +76,17 @@ class Index extends \Ilch\Controller\Admin
                 ->add($this->getTranslator()->trans('edit'), ['action' => 'treat']);
 
             $server = $mapper->readById($this->getRequest()->getParam('id'));
-            $this->getView()->set('server', $server);
 
             if (!$server) {
                 $this->redirect()
-                        ->to(['action' => 'index']);
+                    ->to(['action' => 'index']);
             }
         } else {
             $this->getLayout()->getAdminHmenu()
                 ->add($this->getTranslator()->trans('minecraftserver'), ['controller' => 'index', 'action' => 'index'])
                 ->add($this->getTranslator()->trans('add'), ['action' => 'treat']);
         }
+        $this->getView()->set('server', $server);
 
         if ($this->getRequest()->isPost()) {
             Validation::setCustomFieldAliases([
@@ -92,27 +94,21 @@ class Index extends \Ilch\Controller\Admin
                 'inputPort' => 'port',
                 'inputTimeout' => 'timeout'
             ]);
-            
-            if ($server->getMinecraftserver() === null || $this->getRequest()->getPost('inputServer') !== $server->getMinecraftserver()) {
-                $validationrules = ['inputServer' => 'required|unique:minecraftserver_status,minecraftserver'];
-                $validationrules = ['inputPort' => 'required'];
-                $validationrules = ['inputTimeout' => 'required'];
-            } else {
-                $validationrules = ['inputServer' => 'required'];
-                $validationrules = ['inputPort' => 'required'];
-                $validationrules = ['inputTimeout' => 'required'];
-            }
+
+            $validationrules = [
+                'inputServer' => 'required', // |unique:minecraftserver_status,minecraftserver,id,' . $server->getId(),
+                'inputPort' => 'required',
+                'inputTimeout' => 'required'];
 
             $validation = Validation::create($this->getRequest()->getPost(), $validationrules);
 
             if ($validation->isValid()) {
-                
                 $server->setMinecraftserver($this->getRequest()->getPost('inputServer'))
-                ->setPort($this->getRequest()->getPost('inputPort'))
-                ->setTimeout($this->getRequest()->getPost('inputTimeout'));
+                    ->setPort($this->getRequest()->getPost('inputPort'))
+                    ->setTimeout($this->getRequest()->getPost('inputTimeout'));
 
                 $mapper->updateDataServer($server);
-                
+
                 $this->redirect()
                     ->withMessage('saveSuccess')
                     ->to(['action' => 'index']);
@@ -122,14 +118,13 @@ class Index extends \Ilch\Controller\Admin
             $this->redirect()
                 ->withInput()
                 ->withErrors($validation->getErrorBag())
-                ->to(array_merge(['action' => 'treat'], ($this->getRequest()->getParam('id') ? ['id' => $this->getRequest()->getParam('id')] : [])));
+                ->to(array_merge(['action' => 'treat'], ($server->getId() ? ['id' => $server->getId()] : [])));
         }
     }
 
     public function updateAction()
     {
         $mapper = new ServerMapper();
-
         $mapper->updateDataServer();
 
         $this->redirect()
