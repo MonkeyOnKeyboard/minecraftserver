@@ -50,13 +50,13 @@ class Index extends \Ilch\Controller\Frontend
 
     public function imgAction()
     {
-        //header("Content-Type: image/png");
+        header("Content-Type: image/png");
         $this->getLayout()->setFile('modules/hangman/layouts/iframe');
 
         $mapper = new ServerMapper();
 
         $server = $mapper->readById($this->getRequest()->getParam('id') ?? 0);
-        var_dump($server);
+
         if ($server) {
             /* Essential variables */
             $margin_bottom = 350;
@@ -64,11 +64,11 @@ class Index extends \Ilch\Controller\Frontend
             $quote_size = 75;
             $author_size = intval($quote_size / 1.5);
             $padding = 50;
-            $quote = $server->getHostname();
+
             $author = $this->getTranslator()->trans('playing') . " " . $server->getGameId() . " " . $server->getGametype();
             $im = imagecreate(1920, 1080);
-            $quote_font =  dirname(__DIR__, 2) . '/static/fonts/freedom.ttf';
-            $author_font = dirname(__DIR__, 2) . '/static/fonts/newboba.ttf';
+            $quote_font =  APPLICATION_PATH . '/modules/minecraftserver/static/fonts/freedom.ttf';
+            $author_font = APPLICATION_PATH . '/modules/minecraftserver/static/fonts/newboba.ttf';
             $white = imagecolorallocatealpha($im, 255, 255, 255, 20);
             $black = imagecolorallocate($im, 0, 0, 0);
 
@@ -85,7 +85,7 @@ class Index extends \Ilch\Controller\Frontend
             imagettftext($im, $author_size / 1.5, 0, 1920 - $author_width - 120 + $padding, 1080 - $author_height - $padding / 2, $black, $author_font, $server->getMinecraftserver() . ":" . $server->getHostport());
 
             /* Setting of word wrapping */
-            $words = explode(' ', $quote);
+            $words = explode(' ', $server->getHostname());
             $quote = '';
             $currentLine = '';
             foreach ($words as $position => $word) {
