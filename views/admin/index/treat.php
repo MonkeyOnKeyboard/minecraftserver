@@ -7,8 +7,8 @@ $server = $this->get('server');
 ?>
 <form method="POST" class="form-horizontal" action="">
     <?=$this->getTokenField() ?>
-    <div class="form-group <?=$this->validation()->hasError('inputServer') ? 'has-error' : '' ?>">
-        <label for="inputServer" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('inputServer') ? ' has-error' : '' ?>">
+        <label for="inputServer" class="col-lg-2 col-form-label">
             <?=$this->getTrans('serverAdress') ?>
         </label>
         <div class="col-lg-2">
@@ -21,8 +21,8 @@ $server = $this->get('server');
 
         </div>
     </div>
-    <div class="form-group <?=$this->validation()->hasError('inputPort') ? 'has-error' : '' ?>">
-        <label for="inputPort" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('inputPort') ? ' has-error' : '' ?>">
+        <label for="inputPort" class="col-lg-2 col-form-label">
             <?=$this->getTrans('port') ?>
         </label>
         <div class="col-lg-2">
@@ -35,8 +35,8 @@ $server = $this->get('server');
 
         </div>
     </div>
-    <div class="form-group <?=$this->validation()->hasError('inputTimeout') ? 'has-error' : '' ?>">
-        <label for="inputTimeout" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('inputTimeout') ? ' has-error' : '' ?>">
+        <label for="inputTimeout" class="col-lg-2 col-form-label">
             <?=$this->getTrans('timeout') ?>
         </label>
         <div class="col-lg-2">

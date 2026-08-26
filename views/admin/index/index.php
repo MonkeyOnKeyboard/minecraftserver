@@ -22,7 +22,7 @@ $servers = $this->get('server');
             <th><?=$this->getCheckAllCheckbox('check_server') ?></th>
             <th>
                 <a href="<?=$this->getUrl(['module' => 'minecraftserver', 'controller' => 'index', 'action' => 'update']) ?>" alt="<?=$this->getTrans('updateServers') ?>" title="<?=$this->getTrans('updateServers') ?>">
-                    <i class="fas fa-sync"></i>
+                    <i class="fa-solid fa-arrows-rotate"></i>
                 </a>
             </th>
             <th></th>
@@ -64,11 +64,11 @@ $servers = $this->get('server');
     <div class="content_savebox">
         <input type="hidden" class="content_savebox_hidden" name="action" value="" />
         <div class="btn-group dropup">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <?=$this->getTrans('selected') ?> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu listChooser" role="menu">
-                <li><a href="#" data-hiddenkey="delete"><?=$this->getTrans('delete') ?></a></li>
+                <li><a href="#" class="dropdown-item" data-hiddenkey="delete"><?=$this->getTrans('delete') ?></a></li>
             </ul>
         </div>
     </div>
