@@ -6,7 +6,7 @@ class Config extends \Ilch\Config\Install
 {
     public $config = [
         'key' => 'minecraftserver',
-        'version' => '1.0.1',
+        'version' => '1.1.0',
         'icon_small' => 'fa-server',
         'author' => 'Markus | MonkeyOnKeyboard',
         'languages' => [
@@ -29,8 +29,8 @@ class Config extends \Ilch\Config\Install
                 ],
             ],
         ],
-        'ilchCore' => '2.1.52',
-        'phpVersion' => '7.3',
+        'ilchCore' => '2.2.0',
+        'phpVersion' => '8.0',
     ];
 
     public function install()

@@ -11,11 +11,11 @@ class Serverinfo
     /**
      * @var ServerModel[]
      */
-    private $server = [];
+    private array $server = [];
     /**
      * @var ServerModel[]
      */
-    private $dataServer = [];
+    private array $dataServer = [];
 
     /**
      * @return array|null
@@ -27,7 +27,7 @@ class Serverinfo
                 $minecraftserver = $server->getMinecraftserver();
 
                 $serverdata = new MinecraftQuery();
-                $PingQuery = null;
+                $pingQuery = null;
                 $info = [];
                 $description = '';
 
@@ -38,14 +38,12 @@ class Serverinfo
                         $serverdata->connectBedrock($minecraftserver, $server->getPort(), $server->getTimeout());
                     }
 
-                    $PingQuery = new MinecraftPing($minecraftserver, $server->getHostport(), $server->getTimeout());
-                    $info = $PingQuery->query();
+                    $pingQuery = new MinecraftPing($minecraftserver, $server->getHostport(), $server->getTimeout());
+                    $info = $pingQuery->query();
                 } catch (\Throwable $e) {
                     $description = $e;
                 } finally {
-                    if ($PingQuery) {
-                        $PingQuery->close();
-                    }
+                    $pingQuery?->close();
                 }
 
                 $model = new ServerModel();

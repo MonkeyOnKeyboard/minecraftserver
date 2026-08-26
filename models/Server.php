@@ -7,87 +7,87 @@ class Server extends \Ilch\Model
     /**
      * @var int
      */
-    protected $id = 0;
+    protected int $id = 0;
     /**
      * @var string
      */
-    protected $minecraftserver = '';
+    protected string $minecraftserver = '';
     /**
      * @var int
      */
-    protected $port = 25565;
+    protected int $port = 25565;
     /**
      * @var int
      */
-    protected $timeout = 10;
+    protected int $timeout = 10;
     /**
      * @var string
      */
-    protected $hostname = '';
+    protected string $hostname = '';
     /**
      * @var string
      */
-    protected $gametype = '';
+    protected string $gametype = '';
     /**
      * @var string
      */
-    protected $game_id = '';
+    protected string $game_id = '';
     /**
      * @var string
      */
-    protected $version = '';
+    protected string $version = '';
     /**
      * @var string
      */
-    protected $plugins = '';
+    protected string $plugins = '';
     /**
      * @var string
      */
-    protected $map = '';
+    protected string $map = '';
     /**
      * @var int
      */
-    protected $numplayers = 0;
+    protected int $numplayers = 0;
     /**
      * @var int
      */
-    protected $maxplayers = 0;
+    protected int $maxplayers = 0;
     /**
      * @var int
      */
-    protected $hostport = 0;
+    protected int $hostport = 0;
     /**
      * @var string
      */
-    protected $hostip = '';
+    protected string $hostip = '';
     /**
      * @var bool
      */
-    protected $online = false;
+    protected bool $online = false;
     /**
      * @var string
      */
-    protected $software = '';
+    protected string $software = '';
     /**
      * @var string
      */
-    protected $description = '';
+    protected string $description = '';
     /**
      * @var string
      */
-    protected $serverpinginfo = '';
+    protected string $serverpinginfo = '';
     /**
      * @var string
      */
-    protected $players = '';
+    protected string $players = '';
     /**
      * @var array
      */
-    protected $serverinfo = [];
+    protected array $serverinfo = [];
     /**
      * @var string
      */
-    protected $updatetime = '';
+    protected string $updatetime = '';
 
     /**
      * @param int $id
