@@ -1,5 +1,5 @@
 # Minecraftserver
-Ilch 2.1.X Modul zur Verwaltung von Minecraft-Servern
+Ilch 2.2.X Modul zur Verwaltung von Minecraft-Servern
 
 # Installation
 
