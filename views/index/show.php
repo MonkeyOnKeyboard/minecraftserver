@@ -54,7 +54,7 @@ $server = $this->get('server');
                     <?php
                     $pluginData = unserialize($server->getPlugins());
                     if (!empty($pluginData)) {
-                        echo "<span class=\"badge\">" . htmlspecialchars($pluginData) . "</span>";
+                        echo "<span class=\"badge\">" . htmlspecialchars($pluginData, ENT_COMPAT) . "</span>";
                     } else {
                         echo "<span class=\"badge\">" . $this->getTrans('noPlugins') . "</span>";
                     }
@@ -90,7 +90,7 @@ $server = $this->get('server');
                                 <?php else : ?>
                                     <?php foreach ($Players as $Player) : ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($Player); ?></td>
+                                        <td><?php echo htmlspecialchars($Player, ENT_COMPAT); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -115,7 +115,7 @@ $server = $this->get('server');
                                 <?php if (!empty($Info)) : ?>
                                     <?php foreach ($Info as $InfoKey => $InfoValue) : ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($InfoKey); ?></td>
+                                        <td><?php echo htmlspecialchars($InfoKey, ENT_COMPAT); ?></td>
                                         <td><?php
                                         if ($InfoKey === 'favicon') {
                                             echo '<img width="64" height="64" src="' . Str_Replace("\n", "", $InfoValue) . '">';
@@ -124,7 +124,7 @@ $server = $this->get('server');
                                             print_r($InfoValue);
                                             echo "</pre>";
                                         } else {
-                                            echo htmlspecialchars($InfoValue);
+                                            echo htmlspecialchars($InfoValue, ENT_COMPAT);
                                         }
                                         ?>
                                         </td>

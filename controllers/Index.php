@@ -133,7 +133,6 @@ class Index extends \Ilch\Controller\Frontend
 
             // Using imagepng () yields better text quality than imagejpeg()
             imagepng($im);
-            imagedestroy($im);
         }
     }
 
