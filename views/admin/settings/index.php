@@ -3,8 +3,8 @@
         <?= $this->getTrans('edit_serverproperties') ?>
     </div>
     <?=$this->getTokenField() ?>
-    <div class="form-group <?=$this->validation()->hasError('requestEveryPage') ? 'has-error' : '' ?>">
-        <label for="requestEveryPage" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('requestEveryPage') ? ' has-error' : '' ?>">
+        <label for="requestEveryPage" class="col-lg-2 col-form-label">
             <?=$this->getTrans('requestEveryPage') ?>
         </label>
         <div class="col-lg-2">
@@ -17,8 +17,8 @@
             </div>
         </div>
     </div>
-    <div class="form-group <?=$this->validation()->hasError('showOffline') ? 'has-error' : '' ?>">
-        <label for="showOffline" class="col-lg-2 control-label">
+    <div class="row mb-3<?=$this->validation()->hasError('showOffline') ? ' has-error' : '' ?>">
+        <label for="showOffline" class="col-lg-2 col-form-label">
             <?=$this->getTrans('showOffline') ?>
         </label>
         <div class="col-lg-2">

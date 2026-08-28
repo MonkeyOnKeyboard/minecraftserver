@@ -10,8 +10,8 @@ $servers = $this->get('server');
 <div id="server">
 <?php if ($servers) : ?>
     <?php foreach ($servers as $server) : ?>
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <a href="<?=$this->getUrl(['module' => 'minecraftserver', 'controller' => 'index', 'action' => 'show', 'id' => $server->getId()]) ?>">
                 <?php if ($server->getOnline()) : ?>
                     <?=$server->getHostname() ?>
@@ -20,8 +20,8 @@ $servers = $this->get('server');
                 <?php endif; ?>
             </a>
         </div>
-        <div class="panel-body">
-            <div  id="show-info">
+        <div class="card-body">
+            <div id="show-info">
                 <div class="col-md-12 col-lg-4">
                     <a href="<?=$this->getUrl(['module' => 'minecraftserver', 'controller' => 'index', 'action' => 'show', 'id' => $server->getId()]) ?>">
                     <?php if ($server->getOnline()) : ?>

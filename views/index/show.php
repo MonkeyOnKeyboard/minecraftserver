@@ -8,11 +8,11 @@ $server = $this->get('server');
 <link href="<?=$this->getModuleUrl('static/css/servers.css') ?>" rel="stylesheet">
 
 <div id="server">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <?=$server->getHostname() ?>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <div class="col-md-12 col-lg-4">
             <?php if ($server->getOnline()) : ?>
                 <img src="<?=$this->getUrl(['module' => 'minecraftserver', 'controller' => 'index', 'action' => 'img', 'id' => $server->getId()]) ?>" title="<?=$server->getHostname() . ' ' . $this->getTrans('playing') . ' ' . $server->getGameId() ?>"  alt="<?=$server->getHostname() . ' ' . $this->getTrans('playing') . ' ' . $server->getGameId() ?>">
@@ -54,7 +54,7 @@ $server = $this->get('server');
                     <?php
                     $pluginData = unserialize($server->getPlugins());
                     if (!empty($pluginData)) {
-                        echo "<span class=\"badge\">" . htmlspecialchars($pluginData) . "</span>";
+                        echo "<span class=\"badge\">" . htmlspecialchars($pluginData, ENT_COMPAT) . "</span>";
                     } else {
                         echo "<span class=\"badge\">" . $this->getTrans('noPlugins') . "</span>";
                     }
@@ -66,8 +66,8 @@ $server = $this->get('server');
             <div class="clearfix"></div>
         </div>
 
-        <div class="panel-footer clearfix">
-            <div class="pull-left">
+        <div class="card-footer clearfix">
+            <div class="float-left">
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">
                 <?=$this->getTrans('showPlayers') ?>
                 </button>
@@ -90,7 +90,7 @@ $server = $this->get('server');
                                 <?php else : ?>
                                     <?php foreach ($Players as $Player) : ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($Player); ?></td>
+                                        <td><?php echo htmlspecialchars($Player, ENT_COMPAT); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -100,8 +100,8 @@ $server = $this->get('server');
                     </div>
                 </div>
             </div>
-            <div class="pull-right">
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+            <div class="float-right">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                     <?=$this->getTrans('showServer') ?>
                 </button>
                 <div class="col">
@@ -115,7 +115,7 @@ $server = $this->get('server');
                                 <?php if (!empty($Info)) : ?>
                                     <?php foreach ($Info as $InfoKey => $InfoValue) : ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($InfoKey); ?></td>
+                                        <td><?php echo htmlspecialchars($InfoKey, ENT_COMPAT); ?></td>
                                         <td><?php
                                         if ($InfoKey === 'favicon') {
                                             echo '<img width="64" height="64" src="' . Str_Replace("\n", "", $InfoValue) . '">';
@@ -124,7 +124,7 @@ $server = $this->get('server');
                                             print_r($InfoValue);
                                             echo "</pre>";
                                         } else {
-                                            echo htmlspecialchars($InfoValue);
+                                            echo htmlspecialchars($InfoValue, ENT_COMPAT);
                                         }
                                         ?>
                                         </td>
